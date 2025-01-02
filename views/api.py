@@ -1,5 +1,5 @@
 # views/api.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,Response  
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
@@ -40,8 +40,17 @@ class APIView:
                 'ip': request.remote_addr
             }
             
-            response, status_code = self.csv_controller.handle_download(request_info)
-            return jsonify(response), status_code
+            success, data = self.csv_controller.handle_download(request_info)
+            if success:
+                return Response(
+                    data[1] if isinstance(data, tuple) else data,
+                    mimetype='text/csv',
+                    headers={
+                        'Content-Disposition': 'attachment; filename=data.csv'
+                    }
+                )
+            else:
+                return jsonify({"success": False, "message": data}), 400
 
         @app.route('/query', methods=['POST'])
         def execute_query():

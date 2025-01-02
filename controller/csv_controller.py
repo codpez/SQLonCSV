@@ -61,10 +61,11 @@ class CSVController:
                 query="Download CSV"
             )
             
-            if success:
-                return {"success": True, "data": data}, 200
-            else:
-                return {"success": False, "message": data}, 400
+            return success, data
+            # if success:
+            #     return {"success": True, "data": data}, 200
+            # else:
+            #     return {"success": False, "message": data}, 400
                 
         except Exception as e:
             return {"success": False, "message": str(e)}, 500

@@ -19,7 +19,7 @@ class QueryController:
             query = query_data['query']
             
             # Ejecutar el query
-            success, result = self.query_service.execute_query(query)
+            success, result, op = self.query_service.execute_query(query)
             
             # Registrar la acción
             self.log_service.log_request(
@@ -33,13 +33,15 @@ class QueryController:
             
             if success:
                 return {
-                    "success": True, 
+                    "success": True,
+                    "operation":op,
                     "data": result
                 }, 200
             else:
                 return {
-                    "success": False, 
-                    "message": result
+                    "success": False,
+                    "message": result,
+                    "operation": op 
                 }, 400
                 
         except Exception as e:

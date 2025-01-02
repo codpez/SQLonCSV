@@ -62,18 +62,23 @@ class CSVService:
         try:
             engine = self.csv_model.get_engine()
             table_name = self.csv_model.table_name
+
+            print(f"Table name: {table_name}")  # Debug
             
             if not engine or not table_name:
                 return False, "No hay datos cargados para descargar"
             
             # Lee los datos actuales
             query = f"SELECT * FROM {table_name}"
+            print(f"Query: {query}")  # Debug
             df = pd.read_sql(query, engine)
-            
+            print(f"DataFrame shape: {df.shape}") 
             # Convierte a CSV en memoria
             csv_data = df.to_csv(index=False)
+            print(f"CSV data length: {len(csv_data)}") 
             
             return True, csv_data
             
         except Exception as e:
+            print(f"Error in download_csv: {str(e)}")
             return False, f"Error generando CSV: {str(e)}"

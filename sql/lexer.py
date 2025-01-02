@@ -14,8 +14,8 @@ class SQLLexer:
     """Lexical analyzer for tokenizing SQL statements."""
 
     # List of token names
-    tokens=('IDENTIFIER', 'NUMBER','ASTERISK', 'STRING', 'PATH', 'EQUALS','COMMA', 'SEMICOLON',
-        'LPAREN','RPAREN', 'GREATER','LESS','JOIN','INNER','COUNT','AS','ON','DOT')
+    base_tokens=('IDENTIFIER', 'NUMBER','ASTERISK', 'STRING', 'PATH', 'EQUALS','COMMA', 'SEMICOLON',
+        'LPAREN','RPAREN', 'GREATER','LESS','DOT')
     reserved = {
     'select' : 'SELECT',
     'from' : 'FROM',
@@ -38,13 +38,15 @@ class SQLLexer:
     'join' : 'JOIN',
     'on' : 'ON',
     'count' : 'COUNT',
-    'as' :  'AS'
+    'as' :  'AS',
+    'desc' : 'DESC',
+    'asc' : 'ASC'
     }
     def __init__(self):
         pass
 
-    #Unifyied tokens and keywords
-    tokens = list(tokens) + list(reserved.values())
+    #Unifyied tokens and keywords   
+    tokens = list(base_tokens) + list(reserved.values())
     # Define token patterns as class attributes
     t_ASTERISK = r'\*'
     t_SEMICOLON = r';'

@@ -1,16 +1,12 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    GROUP
-
 Grammar
 
 Rule 0     S' -> statement
 Rule 1     statement -> SET DATA FROM FILE path eos
 Rule 2     path -> PATH
-Rule 3     aggregate_function -> COUNT LPAREN expression RPAREN
-Rule 4     expression -> IDENTIFIER
+Rule 3     expression -> IDENTIFIER
+Rule 4     expression -> IDENTIFIER DOT IDENTIFIER
 Rule 5     expression -> ASTERISK
 Rule 6     statement -> SELECT columns FROM table_reference optional_clauses eos
 Rule 7     statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPAREN eos
@@ -18,101 +14,122 @@ Rule 8     statement -> UPDATE table SET column EQUALS value WHERE condition eos
 Rule 9     statement -> DELETE FROM table WHERE condition eos
 Rule 10    join_clause -> INNER JOIN IDENTIFIER ON join_condition
 Rule 11    join_condition -> IDENTIFIER EQUALS IDENTIFIER
-Rule 12    table_reference -> IDENTIFIER
-Rule 13    table_reference -> IDENTIFIER IDENTIFIER
-Rule 14    table_reference -> table_reference join_clause
-Rule 15    table_reference -> empty
-Rule 16    columns -> columns COMMA column
-Rule 17    columns -> ASTERISK
-Rule 18    columns -> column
-Rule 19    column -> IDENTIFIER
-Rule 20    column -> IDENTIFIER DOT IDENTIFIER
-Rule 21    column -> aggregate_function
-Rule 22    column -> column AS IDENTIFIER
-Rule 23    table -> IDENTIFIER
-Rule 24    eos -> SEMICOLON
-Rule 25    values -> values COMMA value
-Rule 26    values -> value
-Rule 27    value -> NUMBER
-Rule 28    value -> STRING
-Rule 29    optional_clauses -> where_clause limit_clause
-Rule 30    optional_clauses -> where_clause order_clause
-Rule 31    optional_clauses -> limit_clause
-Rule 32    optional_clauses -> order_clause
-Rule 33    optional_clauses -> where_clause
-Rule 34    optional_clauses -> empty
-Rule 35    condition -> column EQUALS value
-Rule 36    condition -> column GREATER NUMBER
-Rule 37    condition -> column LESS NUMBER
-Rule 38    condition -> condition logical condition
-Rule 39    where_clause -> WHERE condition
-Rule 40    limit_clause -> LIMIT NUMBER
-Rule 41    order_clause -> ORDER BY column
-Rule 42    empty -> <empty>
-Rule 43    logical -> AND
-Rule 44    logical -> OR
+Rule 12    aggregate_function -> COUNT LPAREN expression RPAREN
+Rule 13    aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER
+Rule 14    table_reference -> IDENTIFIER
+Rule 15    table_reference -> IDENTIFIER IDENTIFIER
+Rule 16    table_reference -> table_reference join_clause
+Rule 17    table_reference -> empty
+Rule 18    columns -> columns COMMA column
+Rule 19    columns -> ASTERISK
+Rule 20    columns -> column
+Rule 21    column -> IDENTIFIER
+Rule 22    column -> IDENTIFIER DOT IDENTIFIER
+Rule 23    column -> aggregate_function
+Rule 24    column -> column AS IDENTIFIER
+Rule 25    table -> IDENTIFIER
+Rule 26    eos -> SEMICOLON
+Rule 27    values -> values COMMA value
+Rule 28    values -> value
+Rule 29    value -> NUMBER
+Rule 30    value -> STRING
+Rule 31    condition -> column EQUALS value
+Rule 32    condition -> column GREATER NUMBER
+Rule 33    condition -> column LESS NUMBER
+Rule 34    condition -> condition logical condition
+Rule 35    where_clause -> WHERE condition
+Rule 36    limit_clause -> LIMIT NUMBER
+Rule 37    order_clause -> ORDER BY column
+Rule 38    order_clause -> ORDER BY column DESC
+Rule 39    order_clause -> ORDER BY column ASC
+Rule 40    group_columns -> group_columns COMMA column
+Rule 41    group_columns -> column
+Rule 42    group_clause -> GROUP BY group_columns
+Rule 43    empty -> <empty>
+Rule 44    logical -> AND
+Rule 45    logical -> OR
+Rule 46    optional_clauses -> where_clause group_clause order_clause limit_clause
+Rule 47    optional_clauses -> group_clause order_clause limit_clause
+Rule 48    optional_clauses -> where_clause order_clause limit_clause
+Rule 49    optional_clauses -> where_clause group_clause limit_clause
+Rule 50    optional_clauses -> where_clause group_clause order_clause
+Rule 51    optional_clauses -> where_clause limit_clause
+Rule 52    optional_clauses -> where_clause order_clause
+Rule 53    optional_clauses -> where_clause group_clause
+Rule 54    optional_clauses -> group_clause order_clause
+Rule 55    optional_clauses -> group_clause limit_clause
+Rule 56    optional_clauses -> order_clause limit_clause
+Rule 57    optional_clauses -> limit_clause
+Rule 58    optional_clauses -> group_clause
+Rule 59    optional_clauses -> order_clause
+Rule 60    optional_clauses -> where_clause
+Rule 61    optional_clauses -> empty
 
 Terminals, with rules where they appear
 
-AND                  : 43
-AS                   : 22
-ASTERISK             : 5 17
-BY                   : 41
-COMMA                : 16 25
-COUNT                : 3
+AND                  : 44
+AS                   : 13 24
+ASC                  : 39
+ASTERISK             : 5 19
+BY                   : 37 38 39 42
+COMMA                : 18 27 40
+COUNT                : 12 13
 DATA                 : 1
 DELETE               : 9
-DOT                  : 20
-EQUALS               : 8 11 35
+DESC                 : 38
+DOT                  : 4 22
+EQUALS               : 8 11 31
 FILE                 : 1
 FROM                 : 1 6 9
-GREATER              : 36
-GROUP                : 
-IDENTIFIER           : 4 10 11 11 12 13 13 19 20 20 22 23
+GREATER              : 32
+GROUP                : 42
+IDENTIFIER           : 3 4 4 10 11 11 13 14 15 15 21 22 22 24 25
 INNER                : 10
 INSERT               : 7
 INTO                 : 7
 JOIN                 : 10
-LESS                 : 37
-LIMIT                : 40
-LPAREN               : 3 7 7
-NUMBER               : 27 36 37 40
+LESS                 : 33
+LIMIT                : 36
+LPAREN               : 7 7 12 13
+NUMBER               : 29 32 33 36
 ON                   : 10
-OR                   : 44
-ORDER                : 41
+OR                   : 45
+ORDER                : 37 38 39
 PATH                 : 2
-RPAREN               : 3 7 7
+RPAREN               : 7 7 12 13
 SELECT               : 6
-SEMICOLON            : 24
+SEMICOLON            : 26
 SET                  : 1 8
-STRING               : 28
+STRING               : 30
 UPDATE               : 8
 VALUES               : 7
-WHERE                : 8 9 39
+WHERE                : 8 9 35
 error                : 
 
 Nonterminals, with rules where they appear
 
-aggregate_function   : 21
-column               : 8 16 18 22 35 36 37 41
-columns              : 6 7 16
-condition            : 8 9 38 38 39
-empty                : 15 34
+aggregate_function   : 23
+column               : 8 18 20 24 31 32 33 37 38 39 40 41
+columns              : 6 7 18
+condition            : 8 9 34 34 35
+empty                : 17 61
 eos                  : 1 6 7 8 9
-expression           : 3
-join_clause          : 14
+expression           : 12 13
+group_clause         : 46 47 49 50 53 54 55 58
+group_columns        : 40 42
+join_clause          : 16
 join_condition       : 10
-limit_clause         : 29 31
-logical              : 38
+limit_clause         : 46 47 48 49 51 55 56 57
+logical              : 34
 optional_clauses     : 6
-order_clause         : 30 32
+order_clause         : 46 47 48 50 52 54 56 59
 path                 : 1
 statement            : 0
 table                : 7 8 9
-table_reference      : 6 14
-value                : 8 25 26 35
-values               : 7 25
-where_clause         : 29 30 33
+table_reference      : 6 16
+value                : 8 27 28 31
+values               : 7 27
+where_clause         : 46 48 49 50 51 52 53 60
 
 Parsing method: LALR
 
@@ -149,14 +166,15 @@ state 2
 state 3
 
     (6) statement -> SELECT . columns FROM table_reference optional_clauses eos
-    (16) columns -> . columns COMMA column
-    (17) columns -> . ASTERISK
-    (18) columns -> . column
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (18) columns -> . columns COMMA column
+    (19) columns -> . ASTERISK
+    (20) columns -> . column
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     ASTERISK        shift and go to state 10
     IDENTIFIER      shift and go to state 11
@@ -176,7 +194,7 @@ state 4
 state 5
 
     (8) statement -> UPDATE . table SET column EQUALS value WHERE condition eos
-    (23) table -> . IDENTIFIER
+    (25) table -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 16
 
@@ -199,7 +217,7 @@ state 7
 state 8
 
     (6) statement -> SELECT columns . FROM table_reference optional_clauses eos
-    (16) columns -> columns . COMMA column
+    (18) columns -> columns . COMMA column
 
     FROM            shift and go to state 19
     COMMA           shift and go to state 20
@@ -207,57 +225,66 @@ state 8
 
 state 9
 
-    (18) columns -> column .
-    (22) column -> column . AS IDENTIFIER
+    (20) columns -> column .
+    (24) column -> column . AS IDENTIFIER
 
-    FROM            reduce using rule 18 (columns -> column .)
-    COMMA           reduce using rule 18 (columns -> column .)
-    RPAREN          reduce using rule 18 (columns -> column .)
+    FROM            reduce using rule 20 (columns -> column .)
+    COMMA           reduce using rule 20 (columns -> column .)
+    RPAREN          reduce using rule 20 (columns -> column .)
     AS              shift and go to state 21
 
 
 state 10
 
-    (17) columns -> ASTERISK .
+    (19) columns -> ASTERISK .
 
-    FROM            reduce using rule 17 (columns -> ASTERISK .)
-    COMMA           reduce using rule 17 (columns -> ASTERISK .)
-    RPAREN          reduce using rule 17 (columns -> ASTERISK .)
+    FROM            reduce using rule 19 (columns -> ASTERISK .)
+    COMMA           reduce using rule 19 (columns -> ASTERISK .)
+    RPAREN          reduce using rule 19 (columns -> ASTERISK .)
 
 
 state 11
 
-    (19) column -> IDENTIFIER .
-    (20) column -> IDENTIFIER . DOT IDENTIFIER
+    (21) column -> IDENTIFIER .
+    (22) column -> IDENTIFIER . DOT IDENTIFIER
 
-    AS              reduce using rule 19 (column -> IDENTIFIER .)
-    FROM            reduce using rule 19 (column -> IDENTIFIER .)
-    COMMA           reduce using rule 19 (column -> IDENTIFIER .)
-    RPAREN          reduce using rule 19 (column -> IDENTIFIER .)
-    EQUALS          reduce using rule 19 (column -> IDENTIFIER .)
-    GREATER         reduce using rule 19 (column -> IDENTIFIER .)
-    LESS            reduce using rule 19 (column -> IDENTIFIER .)
-    SEMICOLON       reduce using rule 19 (column -> IDENTIFIER .)
+    AS              reduce using rule 21 (column -> IDENTIFIER .)
+    FROM            reduce using rule 21 (column -> IDENTIFIER .)
+    COMMA           reduce using rule 21 (column -> IDENTIFIER .)
+    RPAREN          reduce using rule 21 (column -> IDENTIFIER .)
+    EQUALS          reduce using rule 21 (column -> IDENTIFIER .)
+    GREATER         reduce using rule 21 (column -> IDENTIFIER .)
+    LESS            reduce using rule 21 (column -> IDENTIFIER .)
+    ORDER           reduce using rule 21 (column -> IDENTIFIER .)
+    LIMIT           reduce using rule 21 (column -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 21 (column -> IDENTIFIER .)
+    DESC            reduce using rule 21 (column -> IDENTIFIER .)
+    ASC             reduce using rule 21 (column -> IDENTIFIER .)
     DOT             shift and go to state 22
 
 
 state 12
 
-    (21) column -> aggregate_function .
+    (23) column -> aggregate_function .
 
-    AS              reduce using rule 21 (column -> aggregate_function .)
-    FROM            reduce using rule 21 (column -> aggregate_function .)
-    COMMA           reduce using rule 21 (column -> aggregate_function .)
-    RPAREN          reduce using rule 21 (column -> aggregate_function .)
-    EQUALS          reduce using rule 21 (column -> aggregate_function .)
-    GREATER         reduce using rule 21 (column -> aggregate_function .)
-    LESS            reduce using rule 21 (column -> aggregate_function .)
-    SEMICOLON       reduce using rule 21 (column -> aggregate_function .)
+    AS              reduce using rule 23 (column -> aggregate_function .)
+    FROM            reduce using rule 23 (column -> aggregate_function .)
+    COMMA           reduce using rule 23 (column -> aggregate_function .)
+    RPAREN          reduce using rule 23 (column -> aggregate_function .)
+    EQUALS          reduce using rule 23 (column -> aggregate_function .)
+    GREATER         reduce using rule 23 (column -> aggregate_function .)
+    LESS            reduce using rule 23 (column -> aggregate_function .)
+    ORDER           reduce using rule 23 (column -> aggregate_function .)
+    LIMIT           reduce using rule 23 (column -> aggregate_function .)
+    SEMICOLON       reduce using rule 23 (column -> aggregate_function .)
+    DESC            reduce using rule 23 (column -> aggregate_function .)
+    ASC             reduce using rule 23 (column -> aggregate_function .)
 
 
 state 13
 
-    (3) aggregate_function -> COUNT . LPAREN expression RPAREN
+    (12) aggregate_function -> COUNT . LPAREN expression RPAREN
+    (13) aggregate_function -> COUNT . LPAREN expression RPAREN AS IDENTIFIER
 
     LPAREN          shift and go to state 23
 
@@ -265,7 +292,7 @@ state 13
 state 14
 
     (7) statement -> INSERT INTO . table LPAREN columns RPAREN VALUES LPAREN values RPAREN eos
-    (23) table -> . IDENTIFIER
+    (25) table -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 16
 
@@ -280,17 +307,17 @@ state 15
 
 state 16
 
-    (23) table -> IDENTIFIER .
+    (25) table -> IDENTIFIER .
 
-    SET             reduce using rule 23 (table -> IDENTIFIER .)
-    LPAREN          reduce using rule 23 (table -> IDENTIFIER .)
-    WHERE           reduce using rule 23 (table -> IDENTIFIER .)
+    SET             reduce using rule 25 (table -> IDENTIFIER .)
+    LPAREN          reduce using rule 25 (table -> IDENTIFIER .)
+    WHERE           reduce using rule 25 (table -> IDENTIFIER .)
 
 
 state 17
 
     (9) statement -> DELETE FROM . table WHERE condition eos
-    (23) table -> . IDENTIFIER
+    (25) table -> . IDENTIFIER
 
     IDENTIFIER      shift and go to state 16
 
@@ -306,30 +333,32 @@ state 18
 state 19
 
     (6) statement -> SELECT columns FROM . table_reference optional_clauses eos
-    (12) table_reference -> . IDENTIFIER
-    (13) table_reference -> . IDENTIFIER IDENTIFIER
-    (14) table_reference -> . table_reference join_clause
-    (15) table_reference -> . empty
-    (42) empty -> .
+    (14) table_reference -> . IDENTIFIER
+    (15) table_reference -> . IDENTIFIER IDENTIFIER
+    (16) table_reference -> . table_reference join_clause
+    (17) table_reference -> . empty
+    (43) empty -> .
 
     IDENTIFIER      shift and go to state 29
-    INNER           reduce using rule 42 (empty -> .)
-    WHERE           reduce using rule 42 (empty -> .)
-    LIMIT           reduce using rule 42 (empty -> .)
-    ORDER           reduce using rule 42 (empty -> .)
-    SEMICOLON       reduce using rule 42 (empty -> .)
+    INNER           reduce using rule 43 (empty -> .)
+    WHERE           reduce using rule 43 (empty -> .)
+    GROUP           reduce using rule 43 (empty -> .)
+    ORDER           reduce using rule 43 (empty -> .)
+    LIMIT           reduce using rule 43 (empty -> .)
+    SEMICOLON       reduce using rule 43 (empty -> .)
 
     table_reference                shift and go to state 28
     empty                          shift and go to state 30
 
 state 20
 
-    (16) columns -> columns COMMA . column
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (18) columns -> columns COMMA . column
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     IDENTIFIER      shift and go to state 11
     COUNT           shift and go to state 13
@@ -339,22 +368,24 @@ state 20
 
 state 21
 
-    (22) column -> column AS . IDENTIFIER
+    (24) column -> column AS . IDENTIFIER
 
     IDENTIFIER      shift and go to state 32
 
 
 state 22
 
-    (20) column -> IDENTIFIER DOT . IDENTIFIER
+    (22) column -> IDENTIFIER DOT . IDENTIFIER
 
     IDENTIFIER      shift and go to state 33
 
 
 state 23
 
-    (3) aggregate_function -> COUNT LPAREN . expression RPAREN
-    (4) expression -> . IDENTIFIER
+    (12) aggregate_function -> COUNT LPAREN . expression RPAREN
+    (13) aggregate_function -> COUNT LPAREN . expression RPAREN AS IDENTIFIER
+    (3) expression -> . IDENTIFIER
+    (4) expression -> . IDENTIFIER DOT IDENTIFIER
     (5) expression -> . ASTERISK
 
     IDENTIFIER      shift and go to state 35
@@ -372,11 +403,12 @@ state 24
 state 25
 
     (8) statement -> UPDATE table SET . column EQUALS value WHERE condition eos
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     IDENTIFIER      shift and go to state 11
     COUNT           shift and go to state 13
@@ -403,107 +435,135 @@ state 27
 state 28
 
     (6) statement -> SELECT columns FROM table_reference . optional_clauses eos
-    (14) table_reference -> table_reference . join_clause
-    (29) optional_clauses -> . where_clause limit_clause
-    (30) optional_clauses -> . where_clause order_clause
-    (31) optional_clauses -> . limit_clause
-    (32) optional_clauses -> . order_clause
-    (33) optional_clauses -> . where_clause
-    (34) optional_clauses -> . empty
+    (16) table_reference -> table_reference . join_clause
+    (46) optional_clauses -> . where_clause group_clause order_clause limit_clause
+    (47) optional_clauses -> . group_clause order_clause limit_clause
+    (48) optional_clauses -> . where_clause order_clause limit_clause
+    (49) optional_clauses -> . where_clause group_clause limit_clause
+    (50) optional_clauses -> . where_clause group_clause order_clause
+    (51) optional_clauses -> . where_clause limit_clause
+    (52) optional_clauses -> . where_clause order_clause
+    (53) optional_clauses -> . where_clause group_clause
+    (54) optional_clauses -> . group_clause order_clause
+    (55) optional_clauses -> . group_clause limit_clause
+    (56) optional_clauses -> . order_clause limit_clause
+    (57) optional_clauses -> . limit_clause
+    (58) optional_clauses -> . group_clause
+    (59) optional_clauses -> . order_clause
+    (60) optional_clauses -> . where_clause
+    (61) optional_clauses -> . empty
     (10) join_clause -> . INNER JOIN IDENTIFIER ON join_condition
-    (39) where_clause -> . WHERE condition
-    (40) limit_clause -> . LIMIT NUMBER
-    (41) order_clause -> . ORDER BY column
-    (42) empty -> .
+    (35) where_clause -> . WHERE condition
+    (42) group_clause -> . GROUP BY group_columns
+    (37) order_clause -> . ORDER BY column
+    (38) order_clause -> . ORDER BY column DESC
+    (39) order_clause -> . ORDER BY column ASC
+    (36) limit_clause -> . LIMIT NUMBER
+    (43) empty -> .
 
-    INNER           shift and go to state 48
-    WHERE           shift and go to state 49
-    LIMIT           shift and go to state 50
-    ORDER           shift and go to state 51
-    SEMICOLON       reduce using rule 42 (empty -> .)
+    INNER           shift and go to state 49
+    WHERE           shift and go to state 50
+    GROUP           shift and go to state 51
+    ORDER           shift and go to state 52
+    LIMIT           shift and go to state 53
+    SEMICOLON       reduce using rule 43 (empty -> .)
 
     optional_clauses               shift and go to state 42
     join_clause                    shift and go to state 43
     where_clause                   shift and go to state 44
-    limit_clause                   shift and go to state 45
+    group_clause                   shift and go to state 45
     order_clause                   shift and go to state 46
-    empty                          shift and go to state 47
+    limit_clause                   shift and go to state 47
+    empty                          shift and go to state 48
 
 state 29
 
-    (12) table_reference -> IDENTIFIER .
-    (13) table_reference -> IDENTIFIER . IDENTIFIER
+    (14) table_reference -> IDENTIFIER .
+    (15) table_reference -> IDENTIFIER . IDENTIFIER
 
-    INNER           reduce using rule 12 (table_reference -> IDENTIFIER .)
-    WHERE           reduce using rule 12 (table_reference -> IDENTIFIER .)
-    LIMIT           reduce using rule 12 (table_reference -> IDENTIFIER .)
-    ORDER           reduce using rule 12 (table_reference -> IDENTIFIER .)
-    SEMICOLON       reduce using rule 12 (table_reference -> IDENTIFIER .)
-    IDENTIFIER      shift and go to state 52
+    INNER           reduce using rule 14 (table_reference -> IDENTIFIER .)
+    WHERE           reduce using rule 14 (table_reference -> IDENTIFIER .)
+    GROUP           reduce using rule 14 (table_reference -> IDENTIFIER .)
+    ORDER           reduce using rule 14 (table_reference -> IDENTIFIER .)
+    LIMIT           reduce using rule 14 (table_reference -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 14 (table_reference -> IDENTIFIER .)
+    IDENTIFIER      shift and go to state 54
 
 
 state 30
 
-    (15) table_reference -> empty .
+    (17) table_reference -> empty .
 
-    INNER           reduce using rule 15 (table_reference -> empty .)
-    WHERE           reduce using rule 15 (table_reference -> empty .)
-    LIMIT           reduce using rule 15 (table_reference -> empty .)
-    ORDER           reduce using rule 15 (table_reference -> empty .)
-    SEMICOLON       reduce using rule 15 (table_reference -> empty .)
+    INNER           reduce using rule 17 (table_reference -> empty .)
+    WHERE           reduce using rule 17 (table_reference -> empty .)
+    GROUP           reduce using rule 17 (table_reference -> empty .)
+    ORDER           reduce using rule 17 (table_reference -> empty .)
+    LIMIT           reduce using rule 17 (table_reference -> empty .)
+    SEMICOLON       reduce using rule 17 (table_reference -> empty .)
 
 
 state 31
 
-    (16) columns -> columns COMMA column .
-    (22) column -> column . AS IDENTIFIER
+    (18) columns -> columns COMMA column .
+    (24) column -> column . AS IDENTIFIER
 
-    FROM            reduce using rule 16 (columns -> columns COMMA column .)
-    COMMA           reduce using rule 16 (columns -> columns COMMA column .)
-    RPAREN          reduce using rule 16 (columns -> columns COMMA column .)
+    FROM            reduce using rule 18 (columns -> columns COMMA column .)
+    COMMA           reduce using rule 18 (columns -> columns COMMA column .)
+    RPAREN          reduce using rule 18 (columns -> columns COMMA column .)
     AS              shift and go to state 21
 
 
 state 32
 
-    (22) column -> column AS IDENTIFIER .
+    (24) column -> column AS IDENTIFIER .
 
-    AS              reduce using rule 22 (column -> column AS IDENTIFIER .)
-    FROM            reduce using rule 22 (column -> column AS IDENTIFIER .)
-    COMMA           reduce using rule 22 (column -> column AS IDENTIFIER .)
-    RPAREN          reduce using rule 22 (column -> column AS IDENTIFIER .)
-    EQUALS          reduce using rule 22 (column -> column AS IDENTIFIER .)
-    GREATER         reduce using rule 22 (column -> column AS IDENTIFIER .)
-    LESS            reduce using rule 22 (column -> column AS IDENTIFIER .)
-    SEMICOLON       reduce using rule 22 (column -> column AS IDENTIFIER .)
+    AS              reduce using rule 24 (column -> column AS IDENTIFIER .)
+    FROM            reduce using rule 24 (column -> column AS IDENTIFIER .)
+    COMMA           reduce using rule 24 (column -> column AS IDENTIFIER .)
+    RPAREN          reduce using rule 24 (column -> column AS IDENTIFIER .)
+    EQUALS          reduce using rule 24 (column -> column AS IDENTIFIER .)
+    GREATER         reduce using rule 24 (column -> column AS IDENTIFIER .)
+    LESS            reduce using rule 24 (column -> column AS IDENTIFIER .)
+    ORDER           reduce using rule 24 (column -> column AS IDENTIFIER .)
+    LIMIT           reduce using rule 24 (column -> column AS IDENTIFIER .)
+    SEMICOLON       reduce using rule 24 (column -> column AS IDENTIFIER .)
+    DESC            reduce using rule 24 (column -> column AS IDENTIFIER .)
+    ASC             reduce using rule 24 (column -> column AS IDENTIFIER .)
 
 
 state 33
 
-    (20) column -> IDENTIFIER DOT IDENTIFIER .
+    (22) column -> IDENTIFIER DOT IDENTIFIER .
 
-    AS              reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    FROM            reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    COMMA           reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    RPAREN          reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    EQUALS          reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    GREATER         reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    LESS            reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
-    SEMICOLON       reduce using rule 20 (column -> IDENTIFIER DOT IDENTIFIER .)
+    AS              reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    FROM            reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    COMMA           reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    RPAREN          reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    EQUALS          reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    GREATER         reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    LESS            reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    ORDER           reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    LIMIT           reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    SEMICOLON       reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    DESC            reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
+    ASC             reduce using rule 22 (column -> IDENTIFIER DOT IDENTIFIER .)
 
 
 state 34
 
-    (3) aggregate_function -> COUNT LPAREN expression . RPAREN
+    (12) aggregate_function -> COUNT LPAREN expression . RPAREN
+    (13) aggregate_function -> COUNT LPAREN expression . RPAREN AS IDENTIFIER
 
-    RPAREN          shift and go to state 53
+    RPAREN          shift and go to state 55
 
 
 state 35
 
-    (4) expression -> IDENTIFIER .
+    (3) expression -> IDENTIFIER .
+    (4) expression -> IDENTIFIER . DOT IDENTIFIER
 
-    RPAREN          reduce using rule 4 (expression -> IDENTIFIER .)
+    RPAREN          reduce using rule 3 (expression -> IDENTIFIER .)
+    DOT             shift and go to state 56
 
 
 state 36
@@ -516,60 +576,62 @@ state 36
 state 37
 
     (7) statement -> INSERT INTO table LPAREN . columns RPAREN VALUES LPAREN values RPAREN eos
-    (16) columns -> . columns COMMA column
-    (17) columns -> . ASTERISK
-    (18) columns -> . column
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (18) columns -> . columns COMMA column
+    (19) columns -> . ASTERISK
+    (20) columns -> . column
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     ASTERISK        shift and go to state 10
     IDENTIFIER      shift and go to state 11
     COUNT           shift and go to state 13
 
-    columns                        shift and go to state 54
+    columns                        shift and go to state 57
     column                         shift and go to state 9
     aggregate_function             shift and go to state 12
 
 state 38
 
     (8) statement -> UPDATE table SET column . EQUALS value WHERE condition eos
-    (22) column -> column . AS IDENTIFIER
+    (24) column -> column . AS IDENTIFIER
 
-    EQUALS          shift and go to state 55
+    EQUALS          shift and go to state 58
     AS              shift and go to state 21
 
 
 state 39
 
     (9) statement -> DELETE FROM table WHERE . condition eos
-    (35) condition -> . column EQUALS value
-    (36) condition -> . column GREATER NUMBER
-    (37) condition -> . column LESS NUMBER
-    (38) condition -> . condition logical condition
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (31) condition -> . column EQUALS value
+    (32) condition -> . column GREATER NUMBER
+    (33) condition -> . column LESS NUMBER
+    (34) condition -> . condition logical condition
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     IDENTIFIER      shift and go to state 11
     COUNT           shift and go to state 13
 
-    condition                      shift and go to state 56
-    column                         shift and go to state 57
+    condition                      shift and go to state 59
+    column                         shift and go to state 60
     aggregate_function             shift and go to state 12
 
 state 40
 
     (1) statement -> SET DATA FROM FILE path . eos
-    (24) eos -> . SEMICOLON
+    (26) eos -> . SEMICOLON
 
-    SEMICOLON       shift and go to state 59
+    SEMICOLON       shift and go to state 62
 
-    eos                            shift and go to state 58
+    eos                            shift and go to state 61
 
 state 41
 
@@ -581,592 +643,875 @@ state 41
 state 42
 
     (6) statement -> SELECT columns FROM table_reference optional_clauses . eos
-    (24) eos -> . SEMICOLON
+    (26) eos -> . SEMICOLON
 
-    SEMICOLON       shift and go to state 59
+    SEMICOLON       shift and go to state 62
 
-    eos                            shift and go to state 60
+    eos                            shift and go to state 63
 
 state 43
 
-    (14) table_reference -> table_reference join_clause .
+    (16) table_reference -> table_reference join_clause .
 
-    INNER           reduce using rule 14 (table_reference -> table_reference join_clause .)
-    WHERE           reduce using rule 14 (table_reference -> table_reference join_clause .)
-    LIMIT           reduce using rule 14 (table_reference -> table_reference join_clause .)
-    ORDER           reduce using rule 14 (table_reference -> table_reference join_clause .)
-    SEMICOLON       reduce using rule 14 (table_reference -> table_reference join_clause .)
+    INNER           reduce using rule 16 (table_reference -> table_reference join_clause .)
+    WHERE           reduce using rule 16 (table_reference -> table_reference join_clause .)
+    GROUP           reduce using rule 16 (table_reference -> table_reference join_clause .)
+    ORDER           reduce using rule 16 (table_reference -> table_reference join_clause .)
+    LIMIT           reduce using rule 16 (table_reference -> table_reference join_clause .)
+    SEMICOLON       reduce using rule 16 (table_reference -> table_reference join_clause .)
 
 
 state 44
 
-    (29) optional_clauses -> where_clause . limit_clause
-    (30) optional_clauses -> where_clause . order_clause
-    (33) optional_clauses -> where_clause .
-    (40) limit_clause -> . LIMIT NUMBER
-    (41) order_clause -> . ORDER BY column
+    (46) optional_clauses -> where_clause . group_clause order_clause limit_clause
+    (48) optional_clauses -> where_clause . order_clause limit_clause
+    (49) optional_clauses -> where_clause . group_clause limit_clause
+    (50) optional_clauses -> where_clause . group_clause order_clause
+    (51) optional_clauses -> where_clause . limit_clause
+    (52) optional_clauses -> where_clause . order_clause
+    (53) optional_clauses -> where_clause . group_clause
+    (60) optional_clauses -> where_clause .
+    (42) group_clause -> . GROUP BY group_columns
+    (37) order_clause -> . ORDER BY column
+    (38) order_clause -> . ORDER BY column DESC
+    (39) order_clause -> . ORDER BY column ASC
+    (36) limit_clause -> . LIMIT NUMBER
 
-    SEMICOLON       reduce using rule 33 (optional_clauses -> where_clause .)
-    LIMIT           shift and go to state 50
-    ORDER           shift and go to state 51
+    SEMICOLON       reduce using rule 60 (optional_clauses -> where_clause .)
+    GROUP           shift and go to state 51
+    ORDER           shift and go to state 52
+    LIMIT           shift and go to state 53
 
-    limit_clause                   shift and go to state 61
-    order_clause                   shift and go to state 62
+    group_clause                   shift and go to state 64
+    order_clause                   shift and go to state 65
+    limit_clause                   shift and go to state 66
 
 state 45
 
-    (31) optional_clauses -> limit_clause .
+    (47) optional_clauses -> group_clause . order_clause limit_clause
+    (54) optional_clauses -> group_clause . order_clause
+    (55) optional_clauses -> group_clause . limit_clause
+    (58) optional_clauses -> group_clause .
+    (37) order_clause -> . ORDER BY column
+    (38) order_clause -> . ORDER BY column DESC
+    (39) order_clause -> . ORDER BY column ASC
+    (36) limit_clause -> . LIMIT NUMBER
 
-    SEMICOLON       reduce using rule 31 (optional_clauses -> limit_clause .)
+    SEMICOLON       reduce using rule 58 (optional_clauses -> group_clause .)
+    ORDER           shift and go to state 52
+    LIMIT           shift and go to state 53
 
+    order_clause                   shift and go to state 67
+    limit_clause                   shift and go to state 68
 
 state 46
 
-    (32) optional_clauses -> order_clause .
+    (56) optional_clauses -> order_clause . limit_clause
+    (59) optional_clauses -> order_clause .
+    (36) limit_clause -> . LIMIT NUMBER
 
-    SEMICOLON       reduce using rule 32 (optional_clauses -> order_clause .)
+    SEMICOLON       reduce using rule 59 (optional_clauses -> order_clause .)
+    LIMIT           shift and go to state 53
 
+    limit_clause                   shift and go to state 69
 
 state 47
 
-    (34) optional_clauses -> empty .
+    (57) optional_clauses -> limit_clause .
 
-    SEMICOLON       reduce using rule 34 (optional_clauses -> empty .)
+    SEMICOLON       reduce using rule 57 (optional_clauses -> limit_clause .)
 
 
 state 48
 
-    (10) join_clause -> INNER . JOIN IDENTIFIER ON join_condition
+    (61) optional_clauses -> empty .
 
-    JOIN            shift and go to state 63
+    SEMICOLON       reduce using rule 61 (optional_clauses -> empty .)
 
 
 state 49
 
-    (39) where_clause -> WHERE . condition
-    (35) condition -> . column EQUALS value
-    (36) condition -> . column GREATER NUMBER
-    (37) condition -> . column LESS NUMBER
-    (38) condition -> . condition logical condition
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (10) join_clause -> INNER . JOIN IDENTIFIER ON join_condition
+
+    JOIN            shift and go to state 70
+
+
+state 50
+
+    (35) where_clause -> WHERE . condition
+    (31) condition -> . column EQUALS value
+    (32) condition -> . column GREATER NUMBER
+    (33) condition -> . column LESS NUMBER
+    (34) condition -> . condition logical condition
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
     IDENTIFIER      shift and go to state 11
     COUNT           shift and go to state 13
 
-    condition                      shift and go to state 64
-    column                         shift and go to state 57
+    condition                      shift and go to state 71
+    column                         shift and go to state 60
     aggregate_function             shift and go to state 12
-
-state 50
-
-    (40) limit_clause -> LIMIT . NUMBER
-
-    NUMBER          shift and go to state 65
-
 
 state 51
 
-    (41) order_clause -> ORDER . BY column
+    (42) group_clause -> GROUP . BY group_columns
 
-    BY              shift and go to state 66
+    BY              shift and go to state 72
 
 
 state 52
 
-    (13) table_reference -> IDENTIFIER IDENTIFIER .
+    (37) order_clause -> ORDER . BY column
+    (38) order_clause -> ORDER . BY column DESC
+    (39) order_clause -> ORDER . BY column ASC
 
-    INNER           reduce using rule 13 (table_reference -> IDENTIFIER IDENTIFIER .)
-    WHERE           reduce using rule 13 (table_reference -> IDENTIFIER IDENTIFIER .)
-    LIMIT           reduce using rule 13 (table_reference -> IDENTIFIER IDENTIFIER .)
-    ORDER           reduce using rule 13 (table_reference -> IDENTIFIER IDENTIFIER .)
-    SEMICOLON       reduce using rule 13 (table_reference -> IDENTIFIER IDENTIFIER .)
+    BY              shift and go to state 73
 
 
 state 53
 
-    (3) aggregate_function -> COUNT LPAREN expression RPAREN .
+    (36) limit_clause -> LIMIT . NUMBER
 
-    AS              reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    FROM            reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    COMMA           reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    EQUALS          reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    GREATER         reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    LESS            reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
-    SEMICOLON       reduce using rule 3 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    NUMBER          shift and go to state 74
 
 
 state 54
 
-    (7) statement -> INSERT INTO table LPAREN columns . RPAREN VALUES LPAREN values RPAREN eos
-    (16) columns -> columns . COMMA column
+    (15) table_reference -> IDENTIFIER IDENTIFIER .
 
-    RPAREN          shift and go to state 67
-    COMMA           shift and go to state 20
+    INNER           reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
+    WHERE           reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
+    GROUP           reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
+    ORDER           reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
+    LIMIT           reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
+    SEMICOLON       reduce using rule 15 (table_reference -> IDENTIFIER IDENTIFIER .)
 
 
 state 55
 
-    (8) statement -> UPDATE table SET column EQUALS . value WHERE condition eos
-    (27) value -> . NUMBER
-    (28) value -> . STRING
+    (12) aggregate_function -> COUNT LPAREN expression RPAREN .
+    (13) aggregate_function -> COUNT LPAREN expression RPAREN . AS IDENTIFIER
 
-    NUMBER          shift and go to state 69
-    STRING          shift and go to state 70
+  ! shift/reduce conflict for AS resolved as shift
+    FROM            reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    COMMA           reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    GREATER         reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    LESS            reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    ORDER           reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    LIMIT           reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    DESC            reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    ASC             reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .)
+    AS              shift and go to state 75
 
-    value                          shift and go to state 68
+  ! AS              [ reduce using rule 12 (aggregate_function -> COUNT LPAREN expression RPAREN .) ]
+
 
 state 56
 
-    (9) statement -> DELETE FROM table WHERE condition . eos
-    (38) condition -> condition . logical condition
-    (24) eos -> . SEMICOLON
-    (43) logical -> . AND
-    (44) logical -> . OR
+    (4) expression -> IDENTIFIER DOT . IDENTIFIER
 
-    SEMICOLON       shift and go to state 59
-    AND             shift and go to state 73
-    OR              shift and go to state 74
+    IDENTIFIER      shift and go to state 76
 
-    eos                            shift and go to state 71
-    logical                        shift and go to state 72
 
 state 57
 
-    (35) condition -> column . EQUALS value
-    (36) condition -> column . GREATER NUMBER
-    (37) condition -> column . LESS NUMBER
-    (22) column -> column . AS IDENTIFIER
+    (7) statement -> INSERT INTO table LPAREN columns . RPAREN VALUES LPAREN values RPAREN eos
+    (18) columns -> columns . COMMA column
 
-    EQUALS          shift and go to state 75
-    GREATER         shift and go to state 76
-    LESS            shift and go to state 77
-    AS              shift and go to state 21
+    RPAREN          shift and go to state 77
+    COMMA           shift and go to state 20
 
 
 state 58
+
+    (8) statement -> UPDATE table SET column EQUALS . value WHERE condition eos
+    (29) value -> . NUMBER
+    (30) value -> . STRING
+
+    NUMBER          shift and go to state 79
+    STRING          shift and go to state 80
+
+    value                          shift and go to state 78
+
+state 59
+
+    (9) statement -> DELETE FROM table WHERE condition . eos
+    (34) condition -> condition . logical condition
+    (26) eos -> . SEMICOLON
+    (44) logical -> . AND
+    (45) logical -> . OR
+
+    SEMICOLON       shift and go to state 62
+    AND             shift and go to state 83
+    OR              shift and go to state 84
+
+    eos                            shift and go to state 81
+    logical                        shift and go to state 82
+
+state 60
+
+    (31) condition -> column . EQUALS value
+    (32) condition -> column . GREATER NUMBER
+    (33) condition -> column . LESS NUMBER
+    (24) column -> column . AS IDENTIFIER
+
+    EQUALS          shift and go to state 85
+    GREATER         shift and go to state 86
+    LESS            shift and go to state 87
+    AS              shift and go to state 21
+
+
+state 61
 
     (1) statement -> SET DATA FROM FILE path eos .
 
     $end            reduce using rule 1 (statement -> SET DATA FROM FILE path eos .)
 
 
-state 59
+state 62
 
-    (24) eos -> SEMICOLON .
+    (26) eos -> SEMICOLON .
 
-    $end            reduce using rule 24 (eos -> SEMICOLON .)
+    $end            reduce using rule 26 (eos -> SEMICOLON .)
 
 
-state 60
+state 63
 
     (6) statement -> SELECT columns FROM table_reference optional_clauses eos .
 
     $end            reduce using rule 6 (statement -> SELECT columns FROM table_reference optional_clauses eos .)
 
 
-state 61
-
-    (29) optional_clauses -> where_clause limit_clause .
-
-    SEMICOLON       reduce using rule 29 (optional_clauses -> where_clause limit_clause .)
-
-
-state 62
-
-    (30) optional_clauses -> where_clause order_clause .
-
-    SEMICOLON       reduce using rule 30 (optional_clauses -> where_clause order_clause .)
-
-
-state 63
-
-    (10) join_clause -> INNER JOIN . IDENTIFIER ON join_condition
-
-    IDENTIFIER      shift and go to state 78
-
-
 state 64
 
-    (39) where_clause -> WHERE condition .
-    (38) condition -> condition . logical condition
-    (43) logical -> . AND
-    (44) logical -> . OR
+    (46) optional_clauses -> where_clause group_clause . order_clause limit_clause
+    (49) optional_clauses -> where_clause group_clause . limit_clause
+    (50) optional_clauses -> where_clause group_clause . order_clause
+    (53) optional_clauses -> where_clause group_clause .
+    (37) order_clause -> . ORDER BY column
+    (38) order_clause -> . ORDER BY column DESC
+    (39) order_clause -> . ORDER BY column ASC
+    (36) limit_clause -> . LIMIT NUMBER
 
-    LIMIT           reduce using rule 39 (where_clause -> WHERE condition .)
-    ORDER           reduce using rule 39 (where_clause -> WHERE condition .)
-    SEMICOLON       reduce using rule 39 (where_clause -> WHERE condition .)
-    AND             shift and go to state 73
-    OR              shift and go to state 74
+    SEMICOLON       reduce using rule 53 (optional_clauses -> where_clause group_clause .)
+    ORDER           shift and go to state 52
+    LIMIT           shift and go to state 53
 
-    logical                        shift and go to state 72
+    order_clause                   shift and go to state 88
+    limit_clause                   shift and go to state 89
 
 state 65
 
-    (40) limit_clause -> LIMIT NUMBER .
+    (48) optional_clauses -> where_clause order_clause . limit_clause
+    (52) optional_clauses -> where_clause order_clause .
+    (36) limit_clause -> . LIMIT NUMBER
 
-    SEMICOLON       reduce using rule 40 (limit_clause -> LIMIT NUMBER .)
+    SEMICOLON       reduce using rule 52 (optional_clauses -> where_clause order_clause .)
+    LIMIT           shift and go to state 53
 
+    limit_clause                   shift and go to state 90
 
 state 66
 
-    (41) order_clause -> ORDER BY . column
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (51) optional_clauses -> where_clause limit_clause .
 
-    IDENTIFIER      shift and go to state 11
-    COUNT           shift and go to state 13
+    SEMICOLON       reduce using rule 51 (optional_clauses -> where_clause limit_clause .)
 
-    column                         shift and go to state 79
-    aggregate_function             shift and go to state 12
 
 state 67
 
-    (7) statement -> INSERT INTO table LPAREN columns RPAREN . VALUES LPAREN values RPAREN eos
+    (47) optional_clauses -> group_clause order_clause . limit_clause
+    (54) optional_clauses -> group_clause order_clause .
+    (36) limit_clause -> . LIMIT NUMBER
 
-    VALUES          shift and go to state 80
+    SEMICOLON       reduce using rule 54 (optional_clauses -> group_clause order_clause .)
+    LIMIT           shift and go to state 53
 
+    limit_clause                   shift and go to state 91
 
 state 68
 
-    (8) statement -> UPDATE table SET column EQUALS value . WHERE condition eos
+    (55) optional_clauses -> group_clause limit_clause .
 
-    WHERE           shift and go to state 81
+    SEMICOLON       reduce using rule 55 (optional_clauses -> group_clause limit_clause .)
 
 
 state 69
 
-    (27) value -> NUMBER .
+    (56) optional_clauses -> order_clause limit_clause .
 
-    WHERE           reduce using rule 27 (value -> NUMBER .)
-    SEMICOLON       reduce using rule 27 (value -> NUMBER .)
-    AND             reduce using rule 27 (value -> NUMBER .)
-    OR              reduce using rule 27 (value -> NUMBER .)
-    LIMIT           reduce using rule 27 (value -> NUMBER .)
-    ORDER           reduce using rule 27 (value -> NUMBER .)
-    RPAREN          reduce using rule 27 (value -> NUMBER .)
-    COMMA           reduce using rule 27 (value -> NUMBER .)
+    SEMICOLON       reduce using rule 56 (optional_clauses -> order_clause limit_clause .)
 
 
 state 70
 
-    (28) value -> STRING .
+    (10) join_clause -> INNER JOIN . IDENTIFIER ON join_condition
 
-    WHERE           reduce using rule 28 (value -> STRING .)
-    SEMICOLON       reduce using rule 28 (value -> STRING .)
-    AND             reduce using rule 28 (value -> STRING .)
-    OR              reduce using rule 28 (value -> STRING .)
-    LIMIT           reduce using rule 28 (value -> STRING .)
-    ORDER           reduce using rule 28 (value -> STRING .)
-    RPAREN          reduce using rule 28 (value -> STRING .)
-    COMMA           reduce using rule 28 (value -> STRING .)
+    IDENTIFIER      shift and go to state 92
 
 
 state 71
+
+    (35) where_clause -> WHERE condition .
+    (34) condition -> condition . logical condition
+    (44) logical -> . AND
+    (45) logical -> . OR
+
+    GROUP           reduce using rule 35 (where_clause -> WHERE condition .)
+    ORDER           reduce using rule 35 (where_clause -> WHERE condition .)
+    LIMIT           reduce using rule 35 (where_clause -> WHERE condition .)
+    SEMICOLON       reduce using rule 35 (where_clause -> WHERE condition .)
+    AND             shift and go to state 83
+    OR              shift and go to state 84
+
+    logical                        shift and go to state 82
+
+state 72
+
+    (42) group_clause -> GROUP BY . group_columns
+    (40) group_columns -> . group_columns COMMA column
+    (41) group_columns -> . column
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
+
+    IDENTIFIER      shift and go to state 11
+    COUNT           shift and go to state 13
+
+    group_columns                  shift and go to state 93
+    column                         shift and go to state 94
+    aggregate_function             shift and go to state 12
+
+state 73
+
+    (37) order_clause -> ORDER BY . column
+    (38) order_clause -> ORDER BY . column DESC
+    (39) order_clause -> ORDER BY . column ASC
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
+
+    IDENTIFIER      shift and go to state 11
+    COUNT           shift and go to state 13
+
+    column                         shift and go to state 95
+    aggregate_function             shift and go to state 12
+
+state 74
+
+    (36) limit_clause -> LIMIT NUMBER .
+
+    SEMICOLON       reduce using rule 36 (limit_clause -> LIMIT NUMBER .)
+
+
+state 75
+
+    (13) aggregate_function -> COUNT LPAREN expression RPAREN AS . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 96
+
+
+state 76
+
+    (4) expression -> IDENTIFIER DOT IDENTIFIER .
+
+    RPAREN          reduce using rule 4 (expression -> IDENTIFIER DOT IDENTIFIER .)
+
+
+state 77
+
+    (7) statement -> INSERT INTO table LPAREN columns RPAREN . VALUES LPAREN values RPAREN eos
+
+    VALUES          shift and go to state 97
+
+
+state 78
+
+    (8) statement -> UPDATE table SET column EQUALS value . WHERE condition eos
+
+    WHERE           shift and go to state 98
+
+
+state 79
+
+    (29) value -> NUMBER .
+
+    WHERE           reduce using rule 29 (value -> NUMBER .)
+    SEMICOLON       reduce using rule 29 (value -> NUMBER .)
+    AND             reduce using rule 29 (value -> NUMBER .)
+    OR              reduce using rule 29 (value -> NUMBER .)
+    GROUP           reduce using rule 29 (value -> NUMBER .)
+    ORDER           reduce using rule 29 (value -> NUMBER .)
+    LIMIT           reduce using rule 29 (value -> NUMBER .)
+    RPAREN          reduce using rule 29 (value -> NUMBER .)
+    COMMA           reduce using rule 29 (value -> NUMBER .)
+
+
+state 80
+
+    (30) value -> STRING .
+
+    WHERE           reduce using rule 30 (value -> STRING .)
+    SEMICOLON       reduce using rule 30 (value -> STRING .)
+    AND             reduce using rule 30 (value -> STRING .)
+    OR              reduce using rule 30 (value -> STRING .)
+    GROUP           reduce using rule 30 (value -> STRING .)
+    ORDER           reduce using rule 30 (value -> STRING .)
+    LIMIT           reduce using rule 30 (value -> STRING .)
+    RPAREN          reduce using rule 30 (value -> STRING .)
+    COMMA           reduce using rule 30 (value -> STRING .)
+
+
+state 81
 
     (9) statement -> DELETE FROM table WHERE condition eos .
 
     $end            reduce using rule 9 (statement -> DELETE FROM table WHERE condition eos .)
 
 
-state 72
-
-    (38) condition -> condition logical . condition
-    (35) condition -> . column EQUALS value
-    (36) condition -> . column GREATER NUMBER
-    (37) condition -> . column LESS NUMBER
-    (38) condition -> . condition logical condition
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
-
-    IDENTIFIER      shift and go to state 11
-    COUNT           shift and go to state 13
-
-    condition                      shift and go to state 82
-    column                         shift and go to state 57
-    aggregate_function             shift and go to state 12
-
-state 73
-
-    (43) logical -> AND .
-
-    IDENTIFIER      reduce using rule 43 (logical -> AND .)
-    COUNT           reduce using rule 43 (logical -> AND .)
-
-
-state 74
-
-    (44) logical -> OR .
-
-    IDENTIFIER      reduce using rule 44 (logical -> OR .)
-    COUNT           reduce using rule 44 (logical -> OR .)
-
-
-state 75
-
-    (35) condition -> column EQUALS . value
-    (27) value -> . NUMBER
-    (28) value -> . STRING
-
-    NUMBER          shift and go to state 69
-    STRING          shift and go to state 70
-
-    value                          shift and go to state 83
-
-state 76
-
-    (36) condition -> column GREATER . NUMBER
-
-    NUMBER          shift and go to state 84
-
-
-state 77
-
-    (37) condition -> column LESS . NUMBER
-
-    NUMBER          shift and go to state 85
-
-
-state 78
-
-    (10) join_clause -> INNER JOIN IDENTIFIER . ON join_condition
-
-    ON              shift and go to state 86
-
-
-state 79
-
-    (41) order_clause -> ORDER BY column .
-    (22) column -> column . AS IDENTIFIER
-
-    SEMICOLON       reduce using rule 41 (order_clause -> ORDER BY column .)
-    AS              shift and go to state 21
-
-
-state 80
-
-    (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES . LPAREN values RPAREN eos
-
-    LPAREN          shift and go to state 87
-
-
-state 81
-
-    (8) statement -> UPDATE table SET column EQUALS value WHERE . condition eos
-    (35) condition -> . column EQUALS value
-    (36) condition -> . column GREATER NUMBER
-    (37) condition -> . column LESS NUMBER
-    (38) condition -> . condition logical condition
-    (19) column -> . IDENTIFIER
-    (20) column -> . IDENTIFIER DOT IDENTIFIER
-    (21) column -> . aggregate_function
-    (22) column -> . column AS IDENTIFIER
-    (3) aggregate_function -> . COUNT LPAREN expression RPAREN
-
-    IDENTIFIER      shift and go to state 11
-    COUNT           shift and go to state 13
-
-    column                         shift and go to state 57
-    condition                      shift and go to state 88
-    aggregate_function             shift and go to state 12
-
 state 82
 
-    (38) condition -> condition logical condition .
-    (38) condition -> condition . logical condition
-    (43) logical -> . AND
-    (44) logical -> . OR
+    (34) condition -> condition logical . condition
+    (31) condition -> . column EQUALS value
+    (32) condition -> . column GREATER NUMBER
+    (33) condition -> . column LESS NUMBER
+    (34) condition -> . condition logical condition
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
 
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-    SEMICOLON       reduce using rule 38 (condition -> condition logical condition .)
-    LIMIT           reduce using rule 38 (condition -> condition logical condition .)
-    ORDER           reduce using rule 38 (condition -> condition logical condition .)
-    AND             shift and go to state 73
-    OR              shift and go to state 74
+    IDENTIFIER      shift and go to state 11
+    COUNT           shift and go to state 13
 
-  ! AND             [ reduce using rule 38 (condition -> condition logical condition .) ]
-  ! OR              [ reduce using rule 38 (condition -> condition logical condition .) ]
-
-    logical                        shift and go to state 72
+    condition                      shift and go to state 99
+    column                         shift and go to state 60
+    aggregate_function             shift and go to state 12
 
 state 83
 
-    (35) condition -> column EQUALS value .
+    (44) logical -> AND .
 
-    SEMICOLON       reduce using rule 35 (condition -> column EQUALS value .)
-    AND             reduce using rule 35 (condition -> column EQUALS value .)
-    OR              reduce using rule 35 (condition -> column EQUALS value .)
-    LIMIT           reduce using rule 35 (condition -> column EQUALS value .)
-    ORDER           reduce using rule 35 (condition -> column EQUALS value .)
+    IDENTIFIER      reduce using rule 44 (logical -> AND .)
+    COUNT           reduce using rule 44 (logical -> AND .)
 
 
 state 84
 
-    (36) condition -> column GREATER NUMBER .
+    (45) logical -> OR .
 
-    SEMICOLON       reduce using rule 36 (condition -> column GREATER NUMBER .)
-    AND             reduce using rule 36 (condition -> column GREATER NUMBER .)
-    OR              reduce using rule 36 (condition -> column GREATER NUMBER .)
-    LIMIT           reduce using rule 36 (condition -> column GREATER NUMBER .)
-    ORDER           reduce using rule 36 (condition -> column GREATER NUMBER .)
+    IDENTIFIER      reduce using rule 45 (logical -> OR .)
+    COUNT           reduce using rule 45 (logical -> OR .)
 
 
 state 85
 
-    (37) condition -> column LESS NUMBER .
+    (31) condition -> column EQUALS . value
+    (29) value -> . NUMBER
+    (30) value -> . STRING
 
-    SEMICOLON       reduce using rule 37 (condition -> column LESS NUMBER .)
-    AND             reduce using rule 37 (condition -> column LESS NUMBER .)
-    OR              reduce using rule 37 (condition -> column LESS NUMBER .)
-    LIMIT           reduce using rule 37 (condition -> column LESS NUMBER .)
-    ORDER           reduce using rule 37 (condition -> column LESS NUMBER .)
+    NUMBER          shift and go to state 79
+    STRING          shift and go to state 80
 
+    value                          shift and go to state 100
 
 state 86
+
+    (32) condition -> column GREATER . NUMBER
+
+    NUMBER          shift and go to state 101
+
+
+state 87
+
+    (33) condition -> column LESS . NUMBER
+
+    NUMBER          shift and go to state 102
+
+
+state 88
+
+    (46) optional_clauses -> where_clause group_clause order_clause . limit_clause
+    (50) optional_clauses -> where_clause group_clause order_clause .
+    (36) limit_clause -> . LIMIT NUMBER
+
+    SEMICOLON       reduce using rule 50 (optional_clauses -> where_clause group_clause order_clause .)
+    LIMIT           shift and go to state 53
+
+    limit_clause                   shift and go to state 103
+
+state 89
+
+    (49) optional_clauses -> where_clause group_clause limit_clause .
+
+    SEMICOLON       reduce using rule 49 (optional_clauses -> where_clause group_clause limit_clause .)
+
+
+state 90
+
+    (48) optional_clauses -> where_clause order_clause limit_clause .
+
+    SEMICOLON       reduce using rule 48 (optional_clauses -> where_clause order_clause limit_clause .)
+
+
+state 91
+
+    (47) optional_clauses -> group_clause order_clause limit_clause .
+
+    SEMICOLON       reduce using rule 47 (optional_clauses -> group_clause order_clause limit_clause .)
+
+
+state 92
+
+    (10) join_clause -> INNER JOIN IDENTIFIER . ON join_condition
+
+    ON              shift and go to state 104
+
+
+state 93
+
+    (42) group_clause -> GROUP BY group_columns .
+    (40) group_columns -> group_columns . COMMA column
+
+    ORDER           reduce using rule 42 (group_clause -> GROUP BY group_columns .)
+    LIMIT           reduce using rule 42 (group_clause -> GROUP BY group_columns .)
+    SEMICOLON       reduce using rule 42 (group_clause -> GROUP BY group_columns .)
+    COMMA           shift and go to state 105
+
+
+state 94
+
+    (41) group_columns -> column .
+    (24) column -> column . AS IDENTIFIER
+
+    COMMA           reduce using rule 41 (group_columns -> column .)
+    ORDER           reduce using rule 41 (group_columns -> column .)
+    LIMIT           reduce using rule 41 (group_columns -> column .)
+    SEMICOLON       reduce using rule 41 (group_columns -> column .)
+    AS              shift and go to state 21
+
+
+state 95
+
+    (37) order_clause -> ORDER BY column .
+    (38) order_clause -> ORDER BY column . DESC
+    (39) order_clause -> ORDER BY column . ASC
+    (24) column -> column . AS IDENTIFIER
+
+    LIMIT           reduce using rule 37 (order_clause -> ORDER BY column .)
+    SEMICOLON       reduce using rule 37 (order_clause -> ORDER BY column .)
+    DESC            shift and go to state 106
+    ASC             shift and go to state 107
+    AS              shift and go to state 21
+
+
+state 96
+
+    (13) aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .
+
+    AS              reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    FROM            reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    COMMA           reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    RPAREN          reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    EQUALS          reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    GREATER         reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    LESS            reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    ORDER           reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    LIMIT           reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    SEMICOLON       reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    DESC            reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+    ASC             reduce using rule 13 (aggregate_function -> COUNT LPAREN expression RPAREN AS IDENTIFIER .)
+
+
+state 97
+
+    (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES . LPAREN values RPAREN eos
+
+    LPAREN          shift and go to state 108
+
+
+state 98
+
+    (8) statement -> UPDATE table SET column EQUALS value WHERE . condition eos
+    (31) condition -> . column EQUALS value
+    (32) condition -> . column GREATER NUMBER
+    (33) condition -> . column LESS NUMBER
+    (34) condition -> . condition logical condition
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
+
+    IDENTIFIER      shift and go to state 11
+    COUNT           shift and go to state 13
+
+    column                         shift and go to state 60
+    condition                      shift and go to state 109
+    aggregate_function             shift and go to state 12
+
+state 99
+
+    (34) condition -> condition logical condition .
+    (34) condition -> condition . logical condition
+    (44) logical -> . AND
+    (45) logical -> . OR
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+    SEMICOLON       reduce using rule 34 (condition -> condition logical condition .)
+    GROUP           reduce using rule 34 (condition -> condition logical condition .)
+    ORDER           reduce using rule 34 (condition -> condition logical condition .)
+    LIMIT           reduce using rule 34 (condition -> condition logical condition .)
+    AND             shift and go to state 83
+    OR              shift and go to state 84
+
+  ! AND             [ reduce using rule 34 (condition -> condition logical condition .) ]
+  ! OR              [ reduce using rule 34 (condition -> condition logical condition .) ]
+
+    logical                        shift and go to state 82
+
+state 100
+
+    (31) condition -> column EQUALS value .
+
+    SEMICOLON       reduce using rule 31 (condition -> column EQUALS value .)
+    AND             reduce using rule 31 (condition -> column EQUALS value .)
+    OR              reduce using rule 31 (condition -> column EQUALS value .)
+    GROUP           reduce using rule 31 (condition -> column EQUALS value .)
+    ORDER           reduce using rule 31 (condition -> column EQUALS value .)
+    LIMIT           reduce using rule 31 (condition -> column EQUALS value .)
+
+
+state 101
+
+    (32) condition -> column GREATER NUMBER .
+
+    SEMICOLON       reduce using rule 32 (condition -> column GREATER NUMBER .)
+    AND             reduce using rule 32 (condition -> column GREATER NUMBER .)
+    OR              reduce using rule 32 (condition -> column GREATER NUMBER .)
+    GROUP           reduce using rule 32 (condition -> column GREATER NUMBER .)
+    ORDER           reduce using rule 32 (condition -> column GREATER NUMBER .)
+    LIMIT           reduce using rule 32 (condition -> column GREATER NUMBER .)
+
+
+state 102
+
+    (33) condition -> column LESS NUMBER .
+
+    SEMICOLON       reduce using rule 33 (condition -> column LESS NUMBER .)
+    AND             reduce using rule 33 (condition -> column LESS NUMBER .)
+    OR              reduce using rule 33 (condition -> column LESS NUMBER .)
+    GROUP           reduce using rule 33 (condition -> column LESS NUMBER .)
+    ORDER           reduce using rule 33 (condition -> column LESS NUMBER .)
+    LIMIT           reduce using rule 33 (condition -> column LESS NUMBER .)
+
+
+state 103
+
+    (46) optional_clauses -> where_clause group_clause order_clause limit_clause .
+
+    SEMICOLON       reduce using rule 46 (optional_clauses -> where_clause group_clause order_clause limit_clause .)
+
+
+state 104
 
     (10) join_clause -> INNER JOIN IDENTIFIER ON . join_condition
     (11) join_condition -> . IDENTIFIER EQUALS IDENTIFIER
 
-    IDENTIFIER      shift and go to state 89
+    IDENTIFIER      shift and go to state 110
 
-    join_condition                 shift and go to state 90
+    join_condition                 shift and go to state 111
 
-state 87
+state 105
+
+    (40) group_columns -> group_columns COMMA . column
+    (21) column -> . IDENTIFIER
+    (22) column -> . IDENTIFIER DOT IDENTIFIER
+    (23) column -> . aggregate_function
+    (24) column -> . column AS IDENTIFIER
+    (12) aggregate_function -> . COUNT LPAREN expression RPAREN
+    (13) aggregate_function -> . COUNT LPAREN expression RPAREN AS IDENTIFIER
+
+    IDENTIFIER      shift and go to state 11
+    COUNT           shift and go to state 13
+
+    column                         shift and go to state 112
+    aggregate_function             shift and go to state 12
+
+state 106
+
+    (38) order_clause -> ORDER BY column DESC .
+
+    LIMIT           reduce using rule 38 (order_clause -> ORDER BY column DESC .)
+    SEMICOLON       reduce using rule 38 (order_clause -> ORDER BY column DESC .)
+
+
+state 107
+
+    (39) order_clause -> ORDER BY column ASC .
+
+    LIMIT           reduce using rule 39 (order_clause -> ORDER BY column ASC .)
+    SEMICOLON       reduce using rule 39 (order_clause -> ORDER BY column ASC .)
+
+
+state 108
 
     (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN . values RPAREN eos
-    (25) values -> . values COMMA value
-    (26) values -> . value
-    (27) value -> . NUMBER
-    (28) value -> . STRING
+    (27) values -> . values COMMA value
+    (28) values -> . value
+    (29) value -> . NUMBER
+    (30) value -> . STRING
 
-    NUMBER          shift and go to state 69
-    STRING          shift and go to state 70
+    NUMBER          shift and go to state 79
+    STRING          shift and go to state 80
 
-    values                         shift and go to state 91
-    value                          shift and go to state 92
+    values                         shift and go to state 113
+    value                          shift and go to state 114
 
-state 88
+state 109
 
     (8) statement -> UPDATE table SET column EQUALS value WHERE condition . eos
-    (38) condition -> condition . logical condition
-    (24) eos -> . SEMICOLON
-    (43) logical -> . AND
-    (44) logical -> . OR
+    (34) condition -> condition . logical condition
+    (26) eos -> . SEMICOLON
+    (44) logical -> . AND
+    (45) logical -> . OR
 
-    SEMICOLON       shift and go to state 59
-    AND             shift and go to state 73
-    OR              shift and go to state 74
+    SEMICOLON       shift and go to state 62
+    AND             shift and go to state 83
+    OR              shift and go to state 84
 
-    eos                            shift and go to state 93
-    logical                        shift and go to state 72
+    eos                            shift and go to state 115
+    logical                        shift and go to state 82
 
-state 89
+state 110
 
     (11) join_condition -> IDENTIFIER . EQUALS IDENTIFIER
 
-    EQUALS          shift and go to state 94
+    EQUALS          shift and go to state 116
 
 
-state 90
+state 111
 
     (10) join_clause -> INNER JOIN IDENTIFIER ON join_condition .
 
     INNER           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
     WHERE           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
-    LIMIT           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
+    GROUP           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
     ORDER           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
+    LIMIT           reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
     SEMICOLON       reduce using rule 10 (join_clause -> INNER JOIN IDENTIFIER ON join_condition .)
 
 
-state 91
+state 112
+
+    (40) group_columns -> group_columns COMMA column .
+    (24) column -> column . AS IDENTIFIER
+
+    COMMA           reduce using rule 40 (group_columns -> group_columns COMMA column .)
+    ORDER           reduce using rule 40 (group_columns -> group_columns COMMA column .)
+    LIMIT           reduce using rule 40 (group_columns -> group_columns COMMA column .)
+    SEMICOLON       reduce using rule 40 (group_columns -> group_columns COMMA column .)
+    AS              shift and go to state 21
+
+
+state 113
 
     (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values . RPAREN eos
-    (25) values -> values . COMMA value
+    (27) values -> values . COMMA value
 
-    RPAREN          shift and go to state 95
-    COMMA           shift and go to state 96
-
-
-state 92
-
-    (26) values -> value .
-
-    RPAREN          reduce using rule 26 (values -> value .)
-    COMMA           reduce using rule 26 (values -> value .)
+    RPAREN          shift and go to state 117
+    COMMA           shift and go to state 118
 
 
-state 93
+state 114
+
+    (28) values -> value .
+
+    RPAREN          reduce using rule 28 (values -> value .)
+    COMMA           reduce using rule 28 (values -> value .)
+
+
+state 115
 
     (8) statement -> UPDATE table SET column EQUALS value WHERE condition eos .
 
     $end            reduce using rule 8 (statement -> UPDATE table SET column EQUALS value WHERE condition eos .)
 
 
-state 94
+state 116
 
     (11) join_condition -> IDENTIFIER EQUALS . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 97
+    IDENTIFIER      shift and go to state 119
 
 
-state 95
+state 117
 
     (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPAREN . eos
-    (24) eos -> . SEMICOLON
+    (26) eos -> . SEMICOLON
 
-    SEMICOLON       shift and go to state 59
+    SEMICOLON       shift and go to state 62
 
-    eos                            shift and go to state 98
+    eos                            shift and go to state 120
 
-state 96
+state 118
 
-    (25) values -> values COMMA . value
-    (27) value -> . NUMBER
-    (28) value -> . STRING
+    (27) values -> values COMMA . value
+    (29) value -> . NUMBER
+    (30) value -> . STRING
 
-    NUMBER          shift and go to state 69
-    STRING          shift and go to state 70
+    NUMBER          shift and go to state 79
+    STRING          shift and go to state 80
 
-    value                          shift and go to state 99
+    value                          shift and go to state 121
 
-state 97
+state 119
 
     (11) join_condition -> IDENTIFIER EQUALS IDENTIFIER .
 
     INNER           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
     WHERE           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
-    LIMIT           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
+    GROUP           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
     ORDER           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
+    LIMIT           reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
     SEMICOLON       reduce using rule 11 (join_condition -> IDENTIFIER EQUALS IDENTIFIER .)
 
 
-state 98
+state 120
 
     (7) statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPAREN eos .
 
     $end            reduce using rule 7 (statement -> INSERT INTO table LPAREN columns RPAREN VALUES LPAREN values RPAREN eos .)
 
 
-state 99
+state 121
 
-    (25) values -> values COMMA value .
+    (27) values -> values COMMA value .
 
-    RPAREN          reduce using rule 25 (values -> values COMMA value .)
-    COMMA           reduce using rule 25 (values -> values COMMA value .)
+    RPAREN          reduce using rule 27 (values -> values COMMA value .)
+    COMMA           reduce using rule 27 (values -> values COMMA value .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for AND in state 82 resolved as shift
-WARNING: shift/reduce conflict for OR in state 82 resolved as shift
+WARNING: shift/reduce conflict for AS in state 55 resolved as shift
+WARNING: shift/reduce conflict for AND in state 99 resolved as shift
+WARNING: shift/reduce conflict for OR in state 99 resolved as shift

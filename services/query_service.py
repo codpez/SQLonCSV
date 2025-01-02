@@ -32,10 +32,10 @@ class QueryService:
                 if command_type.upper() == "SELECT":
                     columns = result.keys()
                     result_list = [dict(zip(columns, row)) for row in result]
-                    return True, result_list
+                    return True, result_list,command_type
                 else:
                     conn.commit()
-                    return True, f"Operación exitosa. Filas afectadas: {result.rowcount}"
+                    return True, f"Operación exitosa. Filas afectadas: {result.rowcount}",command_type
                     
         except Exception as e:
-            return False, str(e)
+            return False, str(e), None

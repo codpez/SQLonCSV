@@ -1,4 +1,3 @@
-# models/csv_model.py
 from sqlalchemy import create_engine
 import os
 class CSVModel:
@@ -9,6 +8,7 @@ class CSVModel:
         self.engine = None
         self.columns = None
         self.filename = None
+        self.table_name = None
         self.total_rows = 0
 
 

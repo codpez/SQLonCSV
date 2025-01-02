@@ -18,14 +18,14 @@ class SQLParser:
         """path : PATH"""
         p[0]=p[1]
 
-    def p_aggregate_function(self,p): # para contar
-        """aggregate_function : COUNT LPAREN expression RPAREN"""
-        p[0]= {'function':'COUNT','args': p[3]}
-
     def p_expression(self, p):
         """expression : IDENTIFIER
+                     | IDENTIFIER DOT IDENTIFIER
                      | ASTERISK"""
-        p[0] = p[1]
+        if len(p) == 2:
+            p[0] = p[1]
+        elif len(p) == 4:
+            p[0] = { 'type': 'column', 'table': p[1],'column': p[3]}
     
     def p_statement_select(self, p):
         """statement : SELECT columns FROM table_reference optional_clauses eos"""
@@ -50,6 +50,14 @@ class SQLParser:
     def p_join_condition(self,p):
         """join_condition : IDENTIFIER EQUALS IDENTIFIER"""
         p[0] = {'left' : p[1], 'operator' : p[2], 'right':p[3]}
+
+    def p_aggregate_function(self,p): # para contar
+        """aggregate_function : COUNT LPAREN expression RPAREN
+                              | COUNT LPAREN expression RPAREN AS IDENTIFIER"""
+        if len(p) == 5:
+            p[0] = {'type': 'function', 'function': 'COUNT', 'args': p[3]}
+        else:
+            p[0] = {'type': 'function', 'function': 'COUNT', 'args': p[3], 'alias': p[6]}
 
     def p_table_reference(self,p):
         """table_reference : IDENTIFIER
@@ -82,7 +90,7 @@ class SQLParser:
                   | aggregate_function
                   | column AS IDENTIFIER""" # soporte para alias
         if len(p) == 2:
-            p[0] = p[1]
+            p[0] = p[1] # common case
         elif len(p) == 4:
             if p[2] == 'AS':
                 # Handle alias case
@@ -113,15 +121,6 @@ class SQLParser:
                  | STRING"""
         p[0] = p[1]
 
-    def p_optional_clauses(self, p):
-        """optional_clauses : where_clause limit_clause
-                        | where_clause order_clause
-                        | limit_clause
-                        | order_clause
-                        | where_clause
-                        | empty"""
-        p[0] = p[1]
-
     def p_condition(self, p):
         """condition : column EQUALS value
                  | column GREATER NUMBER
@@ -138,8 +137,25 @@ class SQLParser:
         p[0] = ("LIMIT", p[2])
 
     def p_order_clause(self, p):
-        """order_clause : ORDER BY column"""
-        p[0] = ("ORDER", p[3])
+        """order_clause : ORDER BY column
+                        | ORDER BY column DESC
+                        | ORDER BY column ASC"""
+        if len(p) == 4:
+            p[0] = ("ORDER", p[3])
+        else:
+            p[0] = ("ORDER", p[3], p[4])
+        
+    def p_group_columns(self, p):
+        """group_columns : group_columns COMMA column
+                        | column"""
+        if len(p) == 2:
+            p[0] = [p[1]]
+        else:
+            p[0] = p[1] + [p[3]]
+
+    def p_group_clause(self, p):
+        """group_clause : GROUP BY group_columns"""
+        p[0] = ("GROUP", p[3])
 
     def p_empty(self, p):
         """empty :"""
@@ -148,6 +164,25 @@ class SQLParser:
     def p_logical(self, p):
         """logical : AND
                    | OR"""
+        p[0] = p[1]
+
+    def p_optional_clauses(self, p):
+        """optional_clauses : where_clause group_clause order_clause limit_clause
+                        | group_clause order_clause limit_clause
+                        | where_clause order_clause limit_clause
+                        | where_clause group_clause limit_clause
+                        | where_clause group_clause order_clause
+                        | where_clause limit_clause
+                        | where_clause order_clause
+                        | where_clause group_clause
+                        | group_clause order_clause
+                        | group_clause limit_clause
+                        | order_clause limit_clause
+                        | limit_clause
+                        | group_clause
+                        | order_clause
+                        | where_clause
+                        | empty"""
         p[0] = p[1]
 
     def p_error(self, p):
